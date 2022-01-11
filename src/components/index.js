@@ -1,5 +1,5 @@
 import NavBar from './NavBar/NavBar';
-import Spinner from './ui/Spinner/Spinner';
+import Spinner from './Spinner/Spinner';
 
 export {
     NavBar,

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { currentCityDataSelector, isLoadingSelector, isInitialSelector, initStateSelector, currentDaylyForecastSelector } from '../../store/selectors';
-import Spinner from '../../components/ui/Spinner/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 import { Button, Container, FormControl, InputGroup, Row, Col } from 'react-bootstrap';
-import { fetchCityData, fetchWeatherByCityKey } from '../../store/weatherAPI';
-import { fahrenheitToCelcius } from '../../utils/utils';
-import { NavBar } from '../../components';
+import { fetchCityData } from '../../store/weatherAPI';
+import { getWeekDay } from '../../utils/utils';
 
 const DEFAULT_CITY = 'Tel Aviv';
 
@@ -16,29 +15,31 @@ const Home = () => {
     const currentCityData = useAppSelector(currentCityDataSelector);
     const currentDaylyForecast = useAppSelector(currentDaylyForecastSelector);
 
+    useEffect(() => {
+        dispatch(fetchCityData(DEFAULT_CITY));
+    }, []);
 
     const forecastItem = () => {
         return (
             currentDaylyForecast.map((item: any, i: number) => {
-                console.log('@@@@ ITEM',item);
+                const { Maximum, Minimum } = item.Temperature;
+                const weatherType = item.Day.IconPhrase;
+                const date = item.Date;
+                const weekDay = getWeekDay(date);
+
                 return (
-                    <Col key={i} className="border-bottom mt-5 mb-5">
-                        <p className="text-center fw-lighter fs-3 lh-1">{currentCityData.name}</p>
-                        <p className="text-center fw-lighter fs-5 lh-1">{currentCityData.weather.weatherType}</p>
-                        <p className="text-center fw-lighter display-1 lh-1">{currentCityData.weather.value}</p>
+                    <Col key={i} className="mt-5 mb-5">
+                        <p className="text-center fw-lighter fs-3 lh-1">{weekDay}</p>
+                        <p className="text-center fw-lighter fs-5 lh-1">{weatherType}</p>
+                        <p className="text-center fw-lighter fs-2 lh-1">{Maximum.Value}º - {Minimum.Value}º</p>
                     </Col>
                 );
             })
         );
     };
 
-    useEffect(() => {
-        dispatch(fetchCityData(DEFAULT_CITY));
-    }, []);
-
     // STATE
     console.log('@@@@ STATE', useAppSelector(initStateSelector));
-    console.log('@@@@ currentDaylyForecast', currentDaylyForecast);
 
     return (
         <Container>
@@ -66,7 +67,7 @@ const Home = () => {
                         <div className="mb-5">
                             <p className="text-center fw-lighter display-5 lh-1">{currentCityData.name}</p>
                             <p className="text-center fw-lighter fs-5 lh-1">{currentCityData.weather.weatherType}</p>
-                            <p className="text-center fw-lighter display-1 lh-1">{currentCityData.weather.value}</p>
+                            <p className="text-center fw-lighter display-1 lh-1">{currentCityData.weather.value}º</p>
                         </div>
                     </Col>
                 </Row>

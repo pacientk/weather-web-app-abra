@@ -1,34 +1,57 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../logo.svg';
-import { setIsLoading } from '../../store/reducers/appReducer';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { isLoadingSelector } from '../../store/selectors';
+import { currentCityWeatherDataSelector, isLoadingSelector, isInitialSelector } from '../../store/selectors';
 import Spinner from '../../components/ui/Spinner/Spinner';
+import { Button, Container, FormControl, InputGroup, Row, Col } from 'react-bootstrap';
+import { fetchCityData, fetchWeatherByKey } from '../../store/weatherAPI';
+import { CityEnum } from '../../utils/constants';
+import { fahrenheitToCelcius } from '../../utils/utils';
+import { NavBar } from '../../components';
 
 
 const Home = () => {
     const dispatch = useAppDispatch();
     const isLoading = useAppSelector(isLoadingSelector);
+    const isInitial = useAppSelector(isInitialSelector);
+    const currentWeatherCity = useAppSelector(currentCityWeatherDataSelector);
 
     useEffect(() => {
-        setTimeout(() => dispatch(setIsLoading(true)), 2000);
+        // dispatch(fetchWeatherByKey(CityEnum['Tel Aviv']));
+        dispatch(fetchCityData('Tel Aviv'));
     }, []);
 
+
     return (
-        <div className="App">
+        <Container>
+            {isLoading && !isInitial && <Spinner />}
 
-            {isLoading && <Spinner />}
+            <Row>
+                <Col md={{ span: 9, offset: 1 }}>
 
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
+                    <InputGroup className="mb-3 mt-3" size="lg">
+                        <FormControl
+                            placeholder="Search for Location"
+                            aria-label="Search for Location"
+                            aria-describedby="city-search"
+                        />
+                        <Button variant="outline-secondary" id="city-search">
+                            Search
+                        </Button>
+                    </InputGroup>
+                </Col>
+            </Row>
+            {isInitial && currentWeatherCity.length &&
+            <Row>
+                <Col md={{ span: 9, offset: 1 }} style={{borderStyle: 'solid'}}>
+                    <div>
+                        <p className="text-center fw-lighter display-1" >{fahrenheitToCelcius(currentWeatherCity[0]?.Temperature?.Value)}</p>
+                    </div>
 
-                <Link className="App-link" to="/favorites">favorites</Link>
-            </header>
-        </div>
+                    <div>{JSON.stringify(currentWeatherCity)}</div>
+                </Col>
+            </Row>
+            }
+        </Container>
     );
 };
 

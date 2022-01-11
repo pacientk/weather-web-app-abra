@@ -5,8 +5,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Favorites, Home } from './screens';
 import { Provider } from 'react-redux';
-import { Navbar } from 'react-bootstrap';
-import NavBar from './components/NavBar/NavBar';
+import { NavBar } from './components';
 
 const store = setupStore()
 

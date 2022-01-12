@@ -68,7 +68,7 @@ const Search: React.FC = () => {
                 onKeyPress={handleKeyPress}
                 value={searchTerm}
                 type="text"
-                placeholder="Search the City"
+                placeholder="City Search"
                 className="form-control" />
 
             {suggestionsCities?.length > 0 &&

@@ -4,11 +4,17 @@ import { fetchCityData, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyFo
 export interface IWeatherState {
     currentCityData: any;
     suggestionsCities: any;
+    degreeType: number;
+}
+
+export enum TempUnit {
+    CELCIUS,
+    FAHRENHEIT,
 }
 
 const initialState: IWeatherState = {
     currentCityData: {
-        name: 'Tel Aviv',
+        name: '',
         cityKey: 0,
         weather: {
             value: '-',
@@ -17,7 +23,8 @@ const initialState: IWeatherState = {
         },
         forecast: []
     },
-    suggestionsCities: []
+    suggestionsCities: [],
+    degreeType: TempUnit.CELCIUS
 };
 
 const suggestionTemplate = {
@@ -32,6 +39,9 @@ const weatherSlice = createSlice({
     reducers: {
         cleanSuggestionsCities(state) {
             state.suggestionsCities = [];
+        },
+        setDegreeType(state, action) {
+            state.degreeType = action.payload;
         }
     },
     extraReducers: {
@@ -107,5 +117,5 @@ const weatherSlice = createSlice({
         },
     }
 });
-export const {cleanSuggestionsCities} = weatherSlice.actions
+export const { cleanSuggestionsCities, setDegreeType } = weatherSlice.actions;
 export default weatherSlice.reducer;

@@ -55,9 +55,6 @@ const Home = () => {
         );
     };
 
-    // STATE
-    console.log('@@@@ STATE', useAppSelector(initStateSelector));
-
     return (
         <Container>
             {isLoading && !isInitial && <Spinner />}

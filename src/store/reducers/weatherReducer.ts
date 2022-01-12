@@ -143,14 +143,11 @@ const weatherSlice = createSlice({
             // console.log('@@@@ fetchFavWeatherByCityKey pending');
         },
         [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<any>) => {
-            console.log('@@@@ fetchFavWeatherByCityKey', action.payload);
             const merged = state.favorites.map((item: any, i) => {
                 if (item.cityKey === action.payload[i].cityKey) {
-                    //merging two objects
                     return Object.assign({}, item, action.payload[i]);
                 }
             });
-            console.log('@@@@ MERGED', merged);
             state.favorites = merged;
         },
         [fetchFavWeatherByCityKey.rejected.type]: (state, action: PayloadAction<string>) => {

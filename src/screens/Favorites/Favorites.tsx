@@ -18,8 +18,6 @@ const Favorites = () => {
     const degreeType = useAppSelector(degreeTypeSelector);
     const favorites = useAppSelector(favoritesSelector);
 
-    console.log('@@@@ favorites', favorites);
-
     useEffect(() => {
         dispatch(fetchFavWeatherByCityKey(favorites));
     }, []);
@@ -34,13 +32,11 @@ const Favorites = () => {
 
         if (favorites?.length) {
             return favorites?.map((city: any, i: number) => {
-                console.log('@@@@ ', city.temperValue);
                 return (
-                    <button
+                    <div
                         key={city.cityKey}
                         onClick={() => passToHome(city.cityName)}
-                        type="button"
-                        className="list-group-item list-group-item-action border-0">
+                        className="list-group-item list-group-item-action border-0" style={{ cursor: 'pointer' }}>
 
                         <div key={city.cityKey} className="hstack border-bottom pb-2">
                             <div className="mt-4">
@@ -54,16 +50,13 @@ const Favorites = () => {
                                 <AddRemoveToFavBtn currentCityData={city} />
                             </div>
                         </div>
-                    </button>
+                    </div>
                 );
             });
         }
 
         return (<p className="text-center fs-2 fw-lighter">No favorites Cities</p>);
     };
-
-    // STATE
-    console.log('@@@@ STATE FAV', useAppSelector(initStateSelector));
 
     return (
         <Container>

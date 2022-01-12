@@ -91,7 +91,6 @@ export const fetchFavWeatherByCityKey = createAsyncThunk(
                     const response = await axios.get(
                         `${BASE_URL}/forecasts/v1/hourly/1hour/${city.cityKey}?apikey=${process.env.REACT_APP_WEATHER_API_KEY}`
                     );
-                    console.log('@@@@ RESPONSE.DATA',response.data[0].Temperature.Value);
                     return {cityKey: city.cityKey, temperValue: response.data[0].Temperature.Value };
                 })
             );

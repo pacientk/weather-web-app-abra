@@ -4,6 +4,7 @@ import { fetchCityData, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyFo
 export interface IWeatherState {
     currentCityData: any;
     suggestionsCities: any;
+    favorites: string[],
     degreeType: number;
 }
 
@@ -24,6 +25,7 @@ const initialState: IWeatherState = {
         forecast: []
     },
     suggestionsCities: [],
+    favorites: [],
     degreeType: TempUnit.CELCIUS
 };
 
@@ -42,6 +44,18 @@ const weatherSlice = createSlice({
         },
         setDegreeType(state, action) {
             state.degreeType = action.payload;
+        },
+        addToFavorites(state, action) {
+            const newFav = action.payload;
+            state.favorites = [...state.favorites, newFav];
+        },
+        removeFromFavorites(state, action) {
+            const allFav = state.favorites;
+            const index = state.favorites.indexOf(action.payload);
+            if (index > -1) {
+                allFav.splice(index, 1);
+            }
+            state.favorites = allFav;
         }
     },
     extraReducers: {
@@ -117,5 +131,5 @@ const weatherSlice = createSlice({
         },
     }
 });
-export const { cleanSuggestionsCities, setDegreeType } = weatherSlice.actions;
+export const { cleanSuggestionsCities, setDegreeType, addToFavorites, removeFromFavorites } = weatherSlice.actions;
 export default weatherSlice.reducer;

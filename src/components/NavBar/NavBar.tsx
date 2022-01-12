@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { UnitSwitch } from '../../components';
+import { useAppSelector } from '../../hooks/redux';
+import { favoritesSelector } from '../../store/selectors';
 
 const NavBar = () => {
     const [isCelcius, setIsCelcius] = useState(true);
+    const favorites = useAppSelector(favoritesSelector);
 
     const handleUnitChange = (e: any) => {
         setIsCelcius(prev => !prev);
@@ -16,15 +19,8 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav" className="pt-1">
                     <Nav className="me-auto">
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown>
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="favorites">Features {favorites?.length > 0 && <span className="badge bg-secondary">{favorites?.length}</span>}</Nav.Link>
                     </Nav>
                     <Nav>
                         <UnitSwitch />

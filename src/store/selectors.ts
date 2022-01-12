@@ -13,3 +13,4 @@ export const currentCityDataSelector = (state: RootState) => state.weatherReduce
 export const currentDaylyForecastSelector = (state: RootState) => state.weatherReducer.currentCityData.forecast;
 export const suggestionsCitiesSelector = (state: RootState) => state.weatherReducer.suggestionsCities;
 export const degreeTypeSelector = (state: RootState) => state.weatherReducer.degreeType;
+export const favoritesSelector = (state: RootState) => state.weatherReducer.favorites;

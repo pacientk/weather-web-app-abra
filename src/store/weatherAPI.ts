@@ -82,6 +82,29 @@ export const fetchSearchCitiesData = createAsyncThunk(
     }
 );
 
+export const fetchFavWeatherByCityKey = createAsyncThunk(
+    'weather/fetchFavWeatherByCityKey',
+    async (favorites: string[], thunkAPI) => {
+        try {
+            return await Promise.all(
+                favorites.map(async (cityKey) => {
+                    const response = await axios.get(
+                        `${BASE_URL}/forecasts/v1/hourly/1hour/${cityKey}?apikey=${process.env.REACT_APP_WEATHER_API_KEY}`
+                    );
+                    return response.data[0];
+                })
+            );
+
+
+            thunkAPI.dispatch(setIsLoading(true));
+
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
+    }
+);
+
+
 
 
 

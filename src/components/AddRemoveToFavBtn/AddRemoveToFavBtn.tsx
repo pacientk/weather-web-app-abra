@@ -5,7 +5,7 @@ import { addToFavorites, removeFromFavorites } from '../../store/reducers/weathe
 
 
 const AddRemoveToFavBtn = (props: { cityKey: number }) => {
-    const cityKey = props.cityKey
+    const cityKey = props.cityKey;
     const dispatch = useAppDispatch();
     const favorites = useAppSelector(favoritesSelector);
 
@@ -23,7 +23,7 @@ const AddRemoveToFavBtn = (props: { cityKey: number }) => {
             <button
                 onClick={() => addToFav(cityKey)}
                 type="button"
-                className="btn btn-sm btn-light text-center">
+                className="btn btn-sm btn-light text-center fw-light">
                 Add to Favorites
             </button>
         );
@@ -32,8 +32,8 @@ const AddRemoveToFavBtn = (props: { cityKey: number }) => {
             <button
                 onClick={() => removeFromFav(cityKey)}
                 type="button"
-                className="btn btn-sm btn-light text-center">
-                Remove
+                className="btn btn-sm btn-light text-center fw-light">
+                Remove from Favorites
             </button>
         );
     }

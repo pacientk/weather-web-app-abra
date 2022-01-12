@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchCityData, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
+import { fetchCityData, fetchFavWeatherByCityKey, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
+
+// TODO: implement types
 
 export interface IWeatherState {
     currentCityData: any;
     suggestionsCities: any;
     favorites: string[],
+    favoritesData: string[],
     degreeType: number;
 }
 
@@ -26,6 +29,7 @@ const initialState: IWeatherState = {
     },
     suggestionsCities: [],
     favorites: [],
+    favoritesData: [],
     degreeType: TempUnit.CELCIUS
 };
 
@@ -128,6 +132,21 @@ const weatherSlice = createSlice({
         },
         [fetchSearchCitiesData.rejected.type]: (state, action: PayloadAction<string>) => {
             console.log('@@@@ fetchSearchCitiesData rejected');
+        },
+
+        /**
+         * fetchFavWeatherByCityKey
+         * @param state
+         * @param action
+         */
+        [fetchFavWeatherByCityKey.pending.type]: (state, action: PayloadAction<string[]>) => {
+            // console.log('@@@@ fetchFavWeatherByCityKey pending');
+        },
+        [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            console.log('@@@@ ', action.payload);
+        },
+        [fetchFavWeatherByCityKey.rejected.type]: (state, action: PayloadAction<string>) => {
+            console.log('@@@@ fetchFavWeatherByCityKey rejected');
         },
     }
 });

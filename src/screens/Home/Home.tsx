@@ -11,6 +11,8 @@ import AddRemoveToFavBtn from '../../components/AddRemoveToFavBtn';
 
 const DEFAULT_CITY = 'Tel Aviv';
 
+// TODO: check responsive
+
 const Home = () => {
     const dispatch = useAppDispatch();
     const isLoading = useAppSelector(isLoadingSelector);
@@ -19,6 +21,8 @@ const Home = () => {
     const currentDaylyForecast = useAppSelector(currentDaylyForecastSelector);
     const degreeType = useAppSelector(degreeTypeSelector);
     const favorites = useAppSelector(favoritesSelector);
+
+    console.log('@@@@ currentCityData',currentCityData);
 
     useEffect(() => {
         dispatch(fetchCityData(DEFAULT_CITY));

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { UnitSwitch } from '../../components';
 import { useAppSelector } from '../../hooks/redux';
 import { favoritesSelector } from '../../store/selectors';
@@ -19,15 +20,16 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav" className="pt-1">
                     <Nav className="me-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="favorites">Features {favorites?.length > 0 && <span className="badge bg-secondary">{favorites?.length}</span>}</Nav.Link>
+                        <Link to="/" className="text-decoration-none text-secondary mx-2">
+                            Home
+                        </Link>
+                        <Link to="/favorites" className="text-decoration-none text-secondary mx-2">
+                            Features {favorites?.length > 0 && <span className="badge bg-secondary">{favorites?.length}</span>}
+                        </Link>
                     </Nav>
                     <Nav>
                         <UnitSwitch />
                     </Nav>
-                    {/*<Nav>*/}
-                    {/*    <Nav.Link href="/" className="fw-light">Developed By Kir Ter</Nav.Link>*/}
-                    {/*</Nav>*/}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

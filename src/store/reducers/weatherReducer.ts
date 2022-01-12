@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCityData, fetchFavWeatherByCityKey, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
 
-// TODO: implement types
+// TODO: implement types in AAAAAAL 'any' cases
+// I know... I know... but I need more time
+
+// TODO: Error modal
+// TODO: Check for optimizations
 
 export interface IWeatherState {
     currentCityData: any;
@@ -18,7 +22,7 @@ export enum TempUnit {
 
 const initialState: IWeatherState = {
     currentCityData: {
-        name: '',
+        name: 'Tel Aviv',
         cityKey: 0,
         weather: {
             value: '-',
@@ -55,11 +59,7 @@ const weatherSlice = createSlice({
         },
         removeFromFavorites(state, action) {
             const allFav = state.favorites;
-            const index = state.favorites.indexOf(action.payload);
-            if (index > -1) {
-                allFav.splice(index, 1);
-            }
-            state.favorites = allFav;
+            state.favorites = allFav.filter((e: any) => e.cityKey !== action.payload);
         }
     },
     extraReducers: {
@@ -143,7 +143,15 @@ const weatherSlice = createSlice({
             // console.log('@@@@ fetchFavWeatherByCityKey pending');
         },
         [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<any>) => {
-            console.log('@@@@ ', action.payload);
+            console.log('@@@@ fetchFavWeatherByCityKey', action.payload);
+            const merged = state.favorites.map((item: any, i) => {
+                if (item.cityKey === action.payload[i].cityKey) {
+                    //merging two objects
+                    return Object.assign({}, item, action.payload[i]);
+                }
+            });
+            console.log('@@@@ MERGED', merged);
+            state.favorites = merged;
         },
         [fetchFavWeatherByCityKey.rejected.type]: (state, action: PayloadAction<string>) => {
             console.log('@@@@ fetchFavWeatherByCityKey rejected');

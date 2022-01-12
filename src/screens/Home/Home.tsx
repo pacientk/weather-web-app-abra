@@ -9,8 +9,6 @@ import { SearchInput } from '../../components';
 import { addToFavorites, removeFromFavorites, TempUnit } from '../../store/reducers/weatherReducer';
 import AddRemoveToFavBtn from '../../components/AddRemoveToFavBtn';
 
-const DEFAULT_CITY = 'Tel Aviv';
-
 // TODO: check responsive
 
 const Home = () => {
@@ -22,10 +20,8 @@ const Home = () => {
     const degreeType = useAppSelector(degreeTypeSelector);
     const favorites = useAppSelector(favoritesSelector);
 
-    console.log('@@@@ currentCityData',currentCityData);
-
     useEffect(() => {
-        dispatch(fetchCityData(DEFAULT_CITY));
+        dispatch(fetchCityData(currentCityData.name));
     }, []);
 
     const addToFav = (cityKey: number) => {
@@ -82,7 +78,7 @@ const Home = () => {
                             <p className="text-center fw-lighter display-1 lh-1">
                                 {degreeType === TempUnit.CELCIUS ? fahrenheitToCelcius(currentCityData.weather.value) : currentCityData.weather.value}{'\xB0'}
                             </p>
-                            <AddRemoveToFavBtn cityKey={currentCityData.cityKey} />
+                            <AddRemoveToFavBtn currentCityData={currentCityData} />
                         </div>
                     </Col>
                 </Row>

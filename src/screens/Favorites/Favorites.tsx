@@ -1,24 +1,69 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { favoritesSelector, isInitialSelector, isLoadingSelector } from '../../store/selectors';
+import { degreeTypeSelector, favoritesSelector, initStateSelector, isInitialSelector, isLoadingSelector } from '../../store/selectors';
 import { TempUnit } from '../../store/reducers/weatherReducer';
 import { fahrenheitToCelcius } from '../../utils/utils';
-import { fetchFavWeatherByCityKey } from '../../store/weatherAPI';
+import { fetchCityData, fetchFavWeatherByCityKey } from '../../store/weatherAPI';
+import { AddRemoveToFavBtn } from '../../components';
 
 
 const Favorites = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const isLoading = useAppSelector(isLoadingSelector);
     const isInitial = useAppSelector(isInitialSelector);
+    const degreeType = useAppSelector(degreeTypeSelector);
     const favorites = useAppSelector(favoritesSelector);
+
+    console.log('@@@@ favorites', favorites);
 
     useEffect(() => {
         dispatch(fetchFavWeatherByCityKey(favorites));
     }, []);
 
+    const passToHome = async (cityName: any) => {
+        await dispatch(fetchCityData(cityName));
+        navigate('/');
+    };
+
+
+    const defineGrid = () => {
+
+        if (favorites?.length) {
+            return favorites?.map((city: any, i: number) => {
+                console.log('@@@@ ', city.temperValue);
+                return (
+                    <button
+                        key={city.cityKey}
+                        onClick={() => passToHome(city.cityName)}
+                        type="button"
+                        className="list-group-item list-group-item-action border-0">
+
+                        <div key={city.cityKey} className="hstack border-bottom pb-2">
+                            <div className="mt-4">
+                                <p className="fw-lighter fs-2 lh-1 mb-1">{city.cityName}</p>
+                                <p className="fw-lighter fs-5 lh-1">{'weatherType'}</p>
+                            </div>
+                            <div className="ms-auto mt-3">
+                                <p className="text-end fw-lighter fs-2 lh-1 mb-1">
+                                    {degreeType === TempUnit.CELCIUS ? fahrenheitToCelcius(city.temperValue) : city.temperValue}{'\xB0'}
+                                </p>
+                                <AddRemoveToFavBtn currentCityData={city} />
+                            </div>
+                        </div>
+                    </button>
+                );
+            });
+        }
+
+        return (<p className="text-center fs-2 fw-lighter">No favorites Cities</p>);
+    };
+
+    // STATE
+    console.log('@@@@ STATE FAV', useAppSelector(initStateSelector));
 
     return (
         <Container>
@@ -32,27 +77,7 @@ const Favorites = () => {
 
             <Row>
                 <Col md={{ span: 10, offset: 1 }} className=" mt-5">
-                    {favorites.map(() => {
-                        return (
-                            <div className="hstack border-bottom pb-2">
-                                <div className="mt-4">
-                                    <p className="fw-lighter fs-2 lh-1 mb-1">{'Ashdod'}</p>
-                                    <p className="fw-lighter fs-5 lh-1">{'weatherType'}</p>
-                                </div>
-                                <div className="ms-auto mt-3">
-                                    <p className="text-end fw-lighter fs-2 lh-1 mb-1">
-                                        555{'\xB0'}
-                                    </p>
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-lighter text-center lh-1 fw-light">
-                                        Add to Favorites
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
-
+                    {defineGrid()}
                 </Col>
             </Row>
 

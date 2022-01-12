@@ -4,36 +4,37 @@ import { favoritesSelector } from '../../store/selectors';
 import { addToFavorites, removeFromFavorites } from '../../store/reducers/weatherReducer';
 
 
-const AddRemoveToFavBtn = (props: { cityKey: number }) => {
-    const cityKey = props.cityKey;
+const AddRemoveToFavBtn = (props: { currentCityData: any }) => {
+    const currentCityData = props.currentCityData;
     const dispatch = useAppDispatch();
     const favorites = useAppSelector(favoritesSelector);
 
-    const addToFav = (id: number) => {
-        dispatch(addToFavorites(id));
+    const addToFav = () => {
+        dispatch(addToFavorites({ cityKey: currentCityData.cityKey, cityName: currentCityData.name }));
     };
 
-    const removeFromFav = (id: number) => {
-        dispatch(removeFromFavorites(id));
+    const removeFromFav = () => {
+        dispatch(removeFromFavorites(currentCityData.cityKey));
     };
 
-    // @ts-ignore
-    if (!favorites.includes(cityKey)) {
+
+    if (favorites.filter((e: any) => e.cityKey === currentCityData.cityKey).length > 0) {
         return (
             <button
-                onClick={() => addToFav(cityKey)}
+                onClick={() => removeFromFav()}
                 type="button"
                 className="btn btn-sm btn-light text-center fw-light">
-                Add to Favorites
+                Remove from Favorites
             </button>
+
         );
     } else {
         return (
             <button
-                onClick={() => removeFromFav(cityKey)}
+                onClick={() => addToFav()}
                 type="button"
                 className="btn btn-sm btn-light text-center fw-light">
-                Remove from Favorites
+                Add to Favorites
             </button>
         );
     }

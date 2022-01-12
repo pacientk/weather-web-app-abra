@@ -5,8 +5,9 @@ import Spinner from '../../components/Spinner/Spinner';
 import { Button, Container, FormControl, InputGroup, Row, Col } from 'react-bootstrap';
 import { fetchCityData } from '../../store/weatherAPI';
 import { getWeekDay } from '../../utils/utils';
+import { SearchInput } from '../../components';
 
-const DEFAULT_CITY = 'Tel Aviv';
+const DEFAULT_CITY = 'Ashdod';
 
 const Home = () => {
     const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ const Home = () => {
                     <Col key={i} className="mt-5 mb-5">
                         <p className="text-center fw-lighter fs-3 lh-1">{weekDay}</p>
                         <p className="text-center fw-lighter fs-5 lh-1">{weatherType}</p>
-                        <p className="text-center fw-lighter fs-2 lh-1">{Maximum.Value}º - {Minimum.Value}º</p>
+                        <p className="text-center fw-lighter fs-2 lh-1">{Maximum.Value}º / {Minimum.Value}º</p>
                     </Col>
                 );
             })
@@ -48,16 +49,17 @@ const Home = () => {
             <Row>
                 <Col md={{ span: 10, offset: 1 }} style={{ paddingTop: '2rem' }}>
 
-                    <InputGroup className="mb-3 mt-3" size="lg">
-                        <FormControl
-                            placeholder="Search for Location"
-                            aria-label="Search for Location"
-                            aria-describedby="city-search"
-                        />
-                        <Button variant="outline-secondary" id="city-search">
-                            Search
-                        </Button>
-                    </InputGroup>
+                    <SearchInput/>
+                    {/*<InputGroup className="mb-3 mt-3" size="lg">*/}
+                    {/*    <FormControl*/}
+                    {/*        placeholder="Search for Location"*/}
+                    {/*        aria-label="Search for Location"*/}
+                    {/*        aria-describedby="city-search"*/}
+                    {/*    />*/}
+                    {/*    <Button variant="outline-secondary" id="city-search">*/}
+                    {/*        Search*/}
+                    {/*    </Button>*/}
+                    {/*</InputGroup>*/}
                 </Col>
             </Row>
             {isInitial &&

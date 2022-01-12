@@ -1,17 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchCityData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
+import { fetchCityData, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
 
 export interface IWeatherState {
-    // weatherData: any;
-    // isError: boolean;
-    // currentCityWeatherData: any;
     currentCityData: any;
+    suggestionsCities: any;
 }
 
 const initialState: IWeatherState = {
-    // weatherData: {},
-    // isError: false,
-    // currentCityWeatherData: [],
     currentCityData: {
         name: 'Tel Aviv',
         cityKey: 0,
@@ -21,20 +16,25 @@ const initialState: IWeatherState = {
             weatherType: '',
         },
         forecast: []
-    }
+    },
+    suggestionsCities: []
+};
+
+const suggestionTemplate = {
+    cityKey: 0,
+    cityName: '',
+    cityCountry: ''
 };
 
 const weatherSlice = createSlice({
     name: 'weather',
     initialState,
-    reducers: {},
+    reducers: {
+        cleanSuggestionsCities(state) {
+            state.suggestionsCities = [];
+        }
+    },
     extraReducers: {
-        // [fetchWeatherByKey.fulfilled.type]: (state, action: PayloadAction<string[]>) => {
-        //     // state.currentCityWeatherData = action.payload;
-        // },
-        // [fetchWeatherByKey.rejected.type]: (state, action: PayloadAction<string>) => {
-        //     state.isError = true;
-        // },
         /**
          * fetchCityData
          * @param state
@@ -77,12 +77,35 @@ const weatherSlice = createSlice({
             // console.log('@@@@ FETCH WEATHER BY CITY KEY pending');
         },
         [getDailyForecasts.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: string | number }>) => {
-            state.currentCityData.forecast = action.payload['DailyForecasts']
+            state.currentCityData.forecast = action.payload['DailyForecasts'];
         },
         [getDailyForecasts.rejected.type]: (state, action: PayloadAction<string>) => {
             console.log('@@@@ FETCH WEATHER BY CITY KEY rejected');
         },
+
+        /**
+         * fetchSearchCitiesData
+         * @param state
+         * @param action
+         */
+        [fetchSearchCitiesData.pending.type]: (state, action: PayloadAction<string[]>) => {
+            // console.log('@@@@ fetchSearchCitiesData pending');
+        },
+        [fetchSearchCitiesData.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            const cities = action.payload.map((city: any, i: number) => {
+                const newSugg = { ...suggestionTemplate };
+
+                newSugg.cityKey = city.Key;
+                newSugg.cityName = city.LocalizedName;
+                newSugg.cityCountry = city.Country.LocalizedName;
+
+                state.suggestionsCities = [...state.suggestionsCities, newSugg];
+            });
+        },
+        [fetchSearchCitiesData.rejected.type]: (state, action: PayloadAction<string>) => {
+            console.log('@@@@ fetchSearchCitiesData rejected');
+        },
     }
 });
-
+export const {cleanSuggestionsCities} = weatherSlice.actions
 export default weatherSlice.reducer;

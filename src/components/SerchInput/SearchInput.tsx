@@ -1,31 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DebounceInput } from 'react-debounce-input';
 import { useDispatch } from 'react-redux';
-// import { fetchWeather } from '../../store/fetchWeather';
-// import { fetchCities } from './../../api/placeSuggestion';
-// import { useClickOutside } from './../../hooks/useClickOutside';
-// import { LocationButton, LocationIcon, SearchElement, SearchIcon, SearchInput, SearchResult } from './styled';
-// import Suggestion from './Suggestion';
-import { Button, FormControl, InputGroup } from 'react-bootstrap';
+import { debounce } from 'lodash';
+import { Col } from 'react-bootstrap';
+import { fetchCityData, fetchSearchCitiesData } from '../../store/weatherAPI';
+import { suggestionsCitiesSelector } from '../../store/selectors';
+import { useAppSelector } from '../../hooks/redux';
+import { cleanSuggestionsCities } from '../../store/reducers/weatherReducer';
 
 const Search: React.FC = () => {
     const dispatch = useDispatch();
     const suggestionRef = useRef(null);
-    const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
+    const suggestionsCities = useAppSelector(suggestionsCitiesSelector);
     const [searchTerm, setSearchTerm] = useState('');
-
-    console.log('@@@@ searchTerm',searchTerm);
 
     useEffect(() => {
         if (!searchTerm) {
             return;
         }
-        setShowSuggestions(true);
-        console.log('@@@@ searchTerm',searchTerm);
-        // fetchCities(searchTerm).then((res) => {
-        //     setSuggestions(res);
-        // });
+        debouncedSearch(searchTerm);
     }, [searchTerm]);
 
     const useClickOutside = (element: any, callback: Function) => {
@@ -42,57 +34,59 @@ const Search: React.FC = () => {
         });
     };
 
-    useClickOutside(suggestionRef, () => setShowSuggestions(false));
+    useClickOutside(suggestionRef, () => dispatch(cleanSuggestionsCities()));
 
-    const onSearchInputChanged = (e: any) => {
-        console.log('@@@@ onSearchInputChanged',);
-        setSearchTerm(e.target.value);
+    const handleKeyPress = async (e: any) => {
+        if (e.charCode === 13 || e.key === 'Enter') {
+            e.preventDefault();
+            dispatch(cleanSuggestionsCities());
+            dispatch(fetchSearchCitiesData(e.target.value));
+        }
     };
 
-    const searchInput = ()=>{
-        return(
-            <input type="text" className="form-control" aria-label="Text input with dropdown button"/>
-        )
+    const debouncedSearch = debounce(async (cityName) => {
+        if (cityName.length > 2) {
+            dispatch(cleanSuggestionsCities());
+            dispatch(fetchSearchCitiesData(cityName));
+        }
+    }, 600);
+
+    async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setSearchTerm(e.target.value);
     }
 
+    const handleChooseCity = (cityName: any) => {
+        dispatch(fetchCityData(cityName));
+        dispatch(cleanSuggestionsCities());
+        setSearchTerm('');
+    };
+
     return (
-        <div>
-            {/*<SearchIcon />*/}
-            {/*<DebounceInput element={searchInput} debounceTimeout={300} onChange={onSearchInputChanged} placeholder="Search for location" />*/}
-            {/*<InputGroup className="mb-3 mt-3" size="lg" onChange={onSearchInputChanged}>*/}
-            {/*    <FormControl*/}
-            {/*        placeholder="Search for Location"*/}
-            {/*        aria-label="Search for Location"*/}
-            {/*        aria-describedby="city-search"*/}
-            {/*    />*/}
-            {/*    <Button variant="outline-secondary" id="city-search">*/}
-            {/*        Search*/}
-            {/*    </Button>*/}
-            {/*</InputGroup>*/}
+        <Col>
+            <input
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
+                value={searchTerm}
+                type="text"
+                placeholder="Search the City"
+                className="form-control" />
 
-            <DebounceInput
-                element={searchInput}
-                minLength={3}
-                debounceTimeout={300}
-                onChange={onSearchInputChanged} />
-
-            {/*{showSuggestions && (*/}
-            {/*    <div ref={suggestionRef}>*/}
-            {/*        {suggestions?.slice(0, 6)?.map((s, i) => (*/}
-            {/*            <>*/}
-            {/*            <div>{s} {i}</div>*/}
-            {/*            </>*/}
-            {/*            // <Suggestion*/}
-            {/*            //     key={i}*/}
-            {/*            //     label={s}*/}
-            {/*            //     hideSuggestionFn={() => {*/}
-            {/*            //         setShowSuggestions(false);*/}
-            {/*            //     }}*/}
-            {/*            // />*/}
-            {/*        ))}*/}
-            {/*    </div>*/}
-            {/*)}*/}
-        </div>
+            {suggestionsCities?.length > 0 &&
+            <Col ref={suggestionRef} className="position-relative">
+                <div className="list-group pt-1 position-absolute w-100">
+                    {suggestionsCities.slice(0, 6).map((city: { [key: string]: string }, i: number) => {
+                        return <button
+                            key={city.cityKey}
+                            onClick={() => handleChooseCity(city.cityName)}
+                            type="button"
+                            className="list-group-item list-group-item-action">
+                            {city.cityName}, {city.cityCountry}
+                        </button>;
+                    })}
+                </div>
+            </Col>
+            }
+        </Col>
     );
 };
 

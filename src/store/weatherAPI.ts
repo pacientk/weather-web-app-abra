@@ -67,4 +67,21 @@ export const getDailyForecasts = createAsyncThunk(
     }
 );
 
+export const fetchSearchCitiesData = createAsyncThunk(
+    'weather/fetchSearchCitiesData',
+    async (cityName: string, thunkAPI) => {
+        try {
+            const response = await axios.get(
+                `${BASE_URL}/locations/v1/cities/search?apikey=${process.env.REACT_APP_WEATHER_API_KEY}&q=${cityName}`
+            );
+
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
+    }
+);
+
+
+
 

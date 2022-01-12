@@ -11,3 +11,4 @@ export const isInitialSelector = (state: RootState) => state.appReducer.isInitia
 // Weather
 export const currentCityDataSelector = (state: RootState) => state.weatherReducer.currentCityData;
 export const currentDaylyForecastSelector = (state: RootState) => state.weatherReducer.currentCityData.forecast;
+export const suggestionsCitiesSelector = (state: RootState) => state.weatherReducer.suggestionsCities;

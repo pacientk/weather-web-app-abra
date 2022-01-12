@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { currentCityDataSelector, isLoadingSelector, isInitialSelector, initStateSelector, currentDaylyForecastSelector } from '../../store/selectors';
 import Spinner from '../../components/Spinner/Spinner';
-import { Button, Container, FormControl, InputGroup, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { fetchCityData } from '../../store/weatherAPI';
 import { getWeekDay } from '../../utils/utils';
 import { SearchInput } from '../../components';
 
-const DEFAULT_CITY = 'Ashdod';
+const DEFAULT_CITY = 'Tel Aviv';
 
 const Home = () => {
     const dispatch = useAppDispatch();
@@ -48,20 +48,10 @@ const Home = () => {
 
             <Row>
                 <Col md={{ span: 10, offset: 1 }} style={{ paddingTop: '2rem' }}>
-
-                    <SearchInput/>
-                    {/*<InputGroup className="mb-3 mt-3" size="lg">*/}
-                    {/*    <FormControl*/}
-                    {/*        placeholder="Search for Location"*/}
-                    {/*        aria-label="Search for Location"*/}
-                    {/*        aria-describedby="city-search"*/}
-                    {/*    />*/}
-                    {/*    <Button variant="outline-secondary" id="city-search">*/}
-                    {/*        Search*/}
-                    {/*    </Button>*/}
-                    {/*</InputGroup>*/}
+                    <SearchInput />
                 </Col>
             </Row>
+
             {isInitial &&
             <>
                 <Row>

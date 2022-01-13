@@ -14,7 +14,7 @@ const NavBar = () => {
     };
 
     return (
-        <Navbar className="navbar navbar-light" collapseOnSelect expand="lg" sticky="top">
+        <Navbar className="navbar navbar-light bg-white" collapseOnSelect expand="lg" sticky="top">
             <Container>
                 <Navbar.Brand href="/" className="fs-4 fw-bold">Weather App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

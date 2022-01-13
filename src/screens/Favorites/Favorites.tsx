@@ -41,7 +41,7 @@ const Favorites = () => {
                         <div key={city.cityKey} className="hstack border-bottom pb-2">
                             <div className="mt-4">
                                 <p className="fw-lighter fs-2 lh-1 mb-1">{city.cityName}</p>
-                                <p className="fw-lighter fs-5 lh-1">{'weatherType'}</p>
+                                <p className="fw-lighter fs-5 lh-1">{city.weatherType}</p>
                             </div>
                             <div className="ms-auto mt-3">
                                 <p className="text-end fw-lighter fs-2 lh-1 mb-1">

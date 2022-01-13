@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { degreeTypeSelector, favoritesSelector, isInitialSelector, isLoadingSelector, stateSelector } from '../../store/selectors';
+import { degreeTypeSelector, favoritesSelector, isInitialSelector, isLoadingSelector } from '../../store/selectors';
 import { TempUnit } from '../../store/reducers/weatherReducer';
 import { fahrenheitToCelcius } from '../../utils/utils';
 import { fetchCityData, fetchFavWeatherByCityKey } from '../../store/weatherAPI';
@@ -27,8 +27,6 @@ const Favorites = () => {
         await dispatch(fetchCityData(cityName));
         navigate('/');
     };
-
-    console.log('@@@@ STATE', useAppSelector(stateSelector));
 
     const defineGrid = () => {
 

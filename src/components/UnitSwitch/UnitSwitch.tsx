@@ -11,7 +11,7 @@ const UnitSwitch = () => {
         isCelcius ? dispatch(setDegreeType(TempUnit.CELCIUS)) : dispatch(setDegreeType(TempUnit.FAHRENHEIT));
     }, [isCelcius]);
 
-    const handleUnitChange = (e: any) => {
+    const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setIsCelcius(prev => !prev);
     };
     return (

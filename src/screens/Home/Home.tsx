@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCityData } from '../../store/weatherAPI';
-import { currentCityDataSelector, isLoadingSelector, isInitialSelector, initStateSelector, currentDaylyForecastSelector, degreeTypeSelector, favoritesSelector } from '../../store/selectors';
+import { currentCityDataSelector, isLoadingSelector, isInitialSelector, currentDaylyForecastSelector, degreeTypeSelector, favoritesSelector } from '../../store/selectors';
 import Spinner from '../../components/Spinner/Spinner';
 import { Container, Row, Col } from 'react-bootstrap';
 import { fahrenheitToCelcius, getWeekDay } from '../../utils/utils';
 import { SearchInput } from '../../components';
 import { addToFavorites, removeFromFavorites, TempUnit } from '../../store/reducers/weatherReducer';
 import AddRemoveToFavBtn from '../../components/AddRemoveToFavBtn';
+import { Forecast } from '../../utils/@types';
 
 // TODO: check responsive
 
@@ -34,10 +35,11 @@ const Home = () => {
 
     const forecastItem = () => {
         return (
-            currentDaylyForecast.map((item: any, i: number) => {
+            currentDaylyForecast.map((item: Forecast, i: number) => {
                 const { Maximum, Minimum } = item.Temperature;
                 const weatherType = item.Day.IconPhrase;
                 const date = item.Date;
+                // @ts-ignore
                 const weekDay = getWeekDay(date);
 
                 return (

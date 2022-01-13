@@ -20,7 +20,7 @@ const Search: React.FC = () => {
         debouncedSearch(searchTerm);
     }, [searchTerm]);
 
-    const useClickOutside = (element: any, callback: Function) => {
+    const useClickOutside = (element: React.MutableRefObject<any>, callback: Function) => {
         useEffect(() => {
             const handleClickOutside = (event: Event) => {
                 if (element.current && !element.current.contains(event.target as any)) {
@@ -55,7 +55,7 @@ const Search: React.FC = () => {
         setSearchTerm(e.target.value);
     }
 
-    const handleChooseCity = (cityName: any) => {
+    const handleChooseCity = (cityName: string) => {
         dispatch(fetchCityData(cityName));
         dispatch(cleanSuggestionsCities());
         setSearchTerm('');

@@ -2,9 +2,10 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { favoritesSelector } from '../../store/selectors';
 import { addToFavorites, removeFromFavorites } from '../../store/reducers/weatherReducer';
+import { CurrentCityData, Favorite } from '../../utils/@types';
 
 
-const AddRemoveToFavBtn = (props: { currentCityData: any }) => {
+const AddRemoveToFavBtn = (props: { currentCityData: CurrentCityData | any }) => {
     const currentCityData = props.currentCityData;
     const dispatch = useAppDispatch();
     const favorites = useAppSelector(favoritesSelector);
@@ -13,15 +14,15 @@ const AddRemoveToFavBtn = (props: { currentCityData: any }) => {
         dispatch(addToFavorites({ cityKey: currentCityData.cityKey, cityName: currentCityData.name }));
     };
 
-    const removeFromFav = () => {
+    const removeFromFav = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e.stopPropagation();
         dispatch(removeFromFavorites(currentCityData.cityKey));
     };
 
-
-    if (favorites.filter((e: any) => e.cityKey === currentCityData.cityKey).length > 0) {
+    if (favorites.filter((e: Favorite) => e.cityKey === currentCityData.cityKey).length > 0) {
         return (
             <button
-                onClick={() => removeFromFav()}
+                onClick={(e) => removeFromFav(e)}
                 type="button"
                 className="btn btn-sm btn-light text-center fw-light">
                 Remove from Favorites

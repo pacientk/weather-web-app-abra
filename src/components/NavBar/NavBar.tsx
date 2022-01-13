@@ -9,7 +9,7 @@ const NavBar = () => {
     const [isCelcius, setIsCelcius] = useState(true);
     const favorites = useAppSelector(favoritesSelector);
 
-    const handleUnitChange = (e: any) => {
+    const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setIsCelcius(prev => !prev);
     };
 

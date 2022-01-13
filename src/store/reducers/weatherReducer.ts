@@ -1,31 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCityData, fetchFavWeatherByCityKey, fetchSearchCitiesData, fetchWeatherByCityKey, getDailyForecasts } from '../weatherAPI';
-
-// TODO: implement types in AAAAAAL 'any' cases
-// I know... I know... but I need more time
+import { Forecast, ICurrentCityData, ISearchCitiesData, IWeatherByCityKey } from '../../utils/@types';
 
 // TODO: Error modal
-// TODO: Check for optimizations
-
-export interface IWeatherState {
-    currentCityData: any;
-    suggestionsCities: any;
-    favorites: string[],
-    favoritesData: string[],
-    degreeType: number;
-}
 
 export enum TempUnit {
     CELCIUS,
     FAHRENHEIT,
 }
 
-const initialState: IWeatherState = {
+const initialState: ICurrentCityData = {
     currentCityData: {
         name: 'Tel Aviv',
         cityKey: 0,
         weather: {
-            value: '-',
+            value: 0,
             unit: '',
             weatherType: '',
         },
@@ -33,7 +22,6 @@ const initialState: IWeatherState = {
     },
     suggestionsCities: [],
     favorites: [],
-    favoritesData: [],
     degreeType: TempUnit.CELCIUS
 };
 
@@ -87,7 +75,7 @@ const weatherSlice = createSlice({
         [fetchWeatherByCityKey.pending.type]: (state, action: PayloadAction<string[]>) => {
             // console.log('@@@@ FETCH WEATHER BY CITY KEY pending',action.payload);
         },
-        [fetchWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: any }>) => {
+        [fetchWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<IWeatherByCityKey>) => {
             state.currentCityData.weather.value = action.payload[0].Temperature.Value;
             state.currentCityData.weather.unit = action.payload[0].Temperature.Unit;
             state.currentCityData.weather.weatherType = action.payload[0].IconPhrase;
@@ -104,7 +92,7 @@ const weatherSlice = createSlice({
         [getDailyForecasts.pending.type]: (state, action: PayloadAction<string[]>) => {
             // console.log('@@@@ FETCH WEATHER BY CITY KEY pending');
         },
-        [getDailyForecasts.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: string | number }>) => {
+        [getDailyForecasts.fulfilled.type]: (state, action: PayloadAction<Forecast[]>) => {
             state.currentCityData.forecast = action.payload['DailyForecasts'];
         },
         [getDailyForecasts.rejected.type]: (state, action: PayloadAction<string>) => {
@@ -119,7 +107,7 @@ const weatherSlice = createSlice({
         [fetchSearchCitiesData.pending.type]: (state, action: PayloadAction<string[]>) => {
             // console.log('@@@@ fetchSearchCitiesData pending');
         },
-        [fetchSearchCitiesData.fulfilled.type]: (state, action: PayloadAction<any>) => {
+        [fetchSearchCitiesData.fulfilled.type]: (state, action: PayloadAction<ISearchCitiesData[]>) => {
             const cities = action.payload.map((city: any, i: number) => {
                 const newSugg = { ...suggestionTemplate };
 
@@ -142,7 +130,7 @@ const weatherSlice = createSlice({
         [fetchFavWeatherByCityKey.pending.type]: (state, action: PayloadAction<string[]>) => {
             // console.log('@@@@ fetchFavWeatherByCityKey pending');
         },
-        [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<any>) => {
+        [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: string | number }[]>) => {
             const merged = state.favorites.map((item: any, i) => {
                 if (item.cityKey === action.payload[i].cityKey) {
                     return Object.assign({}, item, action.payload[i]);

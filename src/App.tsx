@@ -18,6 +18,9 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="favorites" element={<Favorites />} />
                 </Routes>
+                <div>
+                    <p className="fw-lighter text-center mt-4" style={{fontSize: "0.75rem"}}>Developed By Kir Ter</p>
+                </div>
             </BrowserRouter>
         </Provider>
     );

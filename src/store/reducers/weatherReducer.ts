@@ -56,14 +56,14 @@ const weatherSlice = createSlice({
          * @param state
          * @param action
          */
-        [fetchCityData.pending.type]: (state, action: PayloadAction<string[]>) => {
+        [fetchCityData.pending.type]: () => {
             // console.log('@@@@ FETCH CITY DATA pending');
         },
         [fetchCityData.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: any }>) => {
             state.currentCityData.cityKey = action.payload[0].Key;
             state.currentCityData.name = action.payload[0].LocalizedName;
         },
-        [fetchCityData.rejected.type]: (state, action: PayloadAction<string>) => {
+        [fetchCityData.rejected.type]: () => {
             console.log('@@@@ FETCH CITY DATA rejected');
         },
 
@@ -72,7 +72,7 @@ const weatherSlice = createSlice({
          * @param state
          * @param action
          */
-        [fetchWeatherByCityKey.pending.type]: (state, action: PayloadAction<string[]>) => {
+        [fetchWeatherByCityKey.pending.type]: () => {
             // console.log('@@@@ FETCH WEATHER BY CITY KEY pending',action.payload);
         },
         [fetchWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<IWeatherByCityKey>) => {
@@ -80,7 +80,7 @@ const weatherSlice = createSlice({
             state.currentCityData.weather.unit = action.payload[0].Temperature.Unit;
             state.currentCityData.weather.weatherType = action.payload[0].IconPhrase;
         },
-        [fetchWeatherByCityKey.rejected.type]: (state, action: PayloadAction<string>) => {
+        [fetchWeatherByCityKey.rejected.type]: () => {
             console.log('@@@@ FETCH WEATHER BY CITY KEY rejected');
         },
 
@@ -89,13 +89,13 @@ const weatherSlice = createSlice({
          * @param state
          * @param action
          */
-        [getDailyForecasts.pending.type]: (state, action: PayloadAction<string[]>) => {
+        [getDailyForecasts.pending.type]: () => {
             // console.log('@@@@ FETCH WEATHER BY CITY KEY pending');
         },
         [getDailyForecasts.fulfilled.type]: (state, action: PayloadAction<Forecast[]>) => {
             state.currentCityData.forecast = action.payload['DailyForecasts'];
         },
-        [getDailyForecasts.rejected.type]: (state, action: PayloadAction<string>) => {
+        [getDailyForecasts.rejected.type]: () => {
             console.log('@@@@ FETCH WEATHER BY CITY KEY rejected');
         },
 
@@ -104,11 +104,11 @@ const weatherSlice = createSlice({
          * @param state
          * @param action
          */
-        [fetchSearchCitiesData.pending.type]: (state, action: PayloadAction<string[]>) => {
+        [fetchSearchCitiesData.pending.type]: () => {
             // console.log('@@@@ fetchSearchCitiesData pending');
         },
         [fetchSearchCitiesData.fulfilled.type]: (state, action: PayloadAction<ISearchCitiesData[]>) => {
-            const cities = action.payload.map((city: any, i: number) => {
+            action.payload?.map((city: any) => {
                 const newSugg = { ...suggestionTemplate };
 
                 newSugg.cityKey = city.Key;
@@ -118,7 +118,7 @@ const weatherSlice = createSlice({
                 state.suggestionsCities = [...state.suggestionsCities, newSugg];
             });
         },
-        [fetchSearchCitiesData.rejected.type]: (state, action: PayloadAction<string>) => {
+        [fetchSearchCitiesData.rejected.type]: () => {
             console.log('@@@@ fetchSearchCitiesData rejected');
         },
 
@@ -127,7 +127,7 @@ const weatherSlice = createSlice({
          * @param state
          * @param action
          */
-        [fetchFavWeatherByCityKey.pending.type]: (state, action: PayloadAction<string[]>) => {
+        [fetchFavWeatherByCityKey.pending.type]: () => {
             // console.log('@@@@ fetchFavWeatherByCityKey pending');
         },
         [fetchFavWeatherByCityKey.fulfilled.type]: (state, action: PayloadAction<{ [key: string]: string | number }[]>) => {
@@ -138,7 +138,7 @@ const weatherSlice = createSlice({
             });
             state.favorites = merged;
         },
-        [fetchFavWeatherByCityKey.rejected.type]: (state, action: PayloadAction<string>) => {
+        [fetchFavWeatherByCityKey.rejected.type]: () => {
             console.log('@@@@ fetchFavWeatherByCityKey rejected');
         },
     }

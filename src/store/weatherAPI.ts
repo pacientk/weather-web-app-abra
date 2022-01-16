@@ -95,7 +95,6 @@ export const fetchFavWeatherByCityKey = createAsyncThunk(
                 })
             );
 
-
             thunkAPI.dispatch(setIsLoading(true));
 
         } catch (e) {

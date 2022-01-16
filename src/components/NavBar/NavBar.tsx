@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UnitSwitch } from '../../components';
@@ -6,12 +6,7 @@ import { useAppSelector } from '../../hooks/redux';
 import { favoritesSelector } from '../../store/selectors';
 
 const NavBar = () => {
-    const [isCelcius, setIsCelcius] = useState(true);
     const favorites = useAppSelector(favoritesSelector);
-
-    const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setIsCelcius(prev => !prev);
-    };
 
     return (
         <Navbar className="navbar navbar-light bg-white" collapseOnSelect expand="lg" sticky="top">

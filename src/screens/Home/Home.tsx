@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCityData } from '../../store/weatherAPI';
-import { currentCityDataSelector, isLoadingSelector, isInitialSelector, currentDaylyForecastSelector, degreeTypeSelector, favoritesSelector } from '../../store/selectors';
+import { currentCityDataSelector, isLoadingSelector, isInitialSelector, currentDaylyForecastSelector, degreeTypeSelector } from '../../store/selectors';
 import Spinner from '../../components/Spinner/Spinner';
 import { Container, Row, Col } from 'react-bootstrap';
 import { fahrenheitToCelcius, getWeekDay } from '../../utils/utils';
 import { SearchInput } from '../../components';
-import { addToFavorites, removeFromFavorites, TempUnit } from '../../store/reducers/weatherReducer';
+import { TempUnit } from '../../store/reducers/weatherReducer';
 import AddRemoveToFavBtn from '../../components/AddRemoveToFavBtn';
 import { Forecast } from '../../utils/@types';
-
-// TODO: check responsive
 
 const Home = () => {
     const dispatch = useAppDispatch();
@@ -19,19 +17,10 @@ const Home = () => {
     const currentCityData = useAppSelector(currentCityDataSelector);
     const currentDaylyForecast = useAppSelector(currentDaylyForecastSelector);
     const degreeType = useAppSelector(degreeTypeSelector);
-    const favorites = useAppSelector(favoritesSelector);
 
     useEffect(() => {
         dispatch(fetchCityData(currentCityData.name));
     }, []);
-
-    const addToFav = (cityKey: number) => {
-        dispatch(addToFavorites(cityKey));
-    };
-
-    const removeFromFav = (cityKey: number) => {
-        dispatch(removeFromFavorites(cityKey));
-    };
 
     const forecastItem = () => {
         return (

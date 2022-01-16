@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import appReducer from './reducers/appReducer';
 import weatherReducer from './reducers/weatherReducer';
+import modalDialogReducer from './reducers/modalDialogReducer';
 
 const rootReducer = combineReducers({
     appReducer,
     weatherReducer,
+    modalDialogReducer,
 });
 
 export const setupStore = () => {

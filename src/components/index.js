@@ -3,6 +3,7 @@ import Spinner from './Spinner/Spinner';
 import SearchInput from './SerchInput/SearchInput';
 import UnitSwitch from './UnitSwitch/UnitSwitch';
 import AddRemoveToFavBtn from './AddRemoveToFavBtn/AddRemoveToFavBtn';
+import ModalDialog from './ModalDialog/ModalDialog';
 
 export {
     NavBar,
@@ -10,4 +11,5 @@ export {
     SearchInput,
     UnitSwitch,
     AddRemoveToFavBtn,
+    ModalDialog,
 };

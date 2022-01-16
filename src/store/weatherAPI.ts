@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setIsInitial, setIsLoading } from './reducers/appReducer';
-import {showErrorModal} from './reducers/modalDialogReducer';
+import { showErrorModal } from './reducers/modalDialogReducer';
 
 const BASE_URL = 'http://dataservice.accuweather.com';
 
@@ -24,7 +24,7 @@ export const fetchCityData = createAsyncThunk(
 
             return response.data;
         } catch (e) {
-            thunkAPI.dispatch(showErrorModal({message: e['message'], title: e['name']}));
+            thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));
             return thunkAPI.rejectWithValue(e);
         }
     }
@@ -42,7 +42,7 @@ export const fetchWeatherByCityKey = createAsyncThunk(
 
             return response.data;
         } catch (e) {
-            thunkAPI.dispatch(showErrorModal({message: e['message'], title: e['name']}));
+            thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));
             return thunkAPI.rejectWithValue(e);
         }
     }
@@ -65,7 +65,7 @@ export const getDailyForecasts = createAsyncThunk(
 
             return response.data;
         } catch (e) {
-            thunkAPI.dispatch(showErrorModal({message: e['message'], title: e['name']}));
+            thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));
             return thunkAPI.rejectWithValue(e);
         }
     }
@@ -81,7 +81,7 @@ export const fetchSearchCitiesData = createAsyncThunk(
 
             return response.data;
         } catch (e) {
-            thunkAPI.dispatch(showErrorModal({message: e['message'], title: e['name']}));
+            thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));
             return thunkAPI.rejectWithValue(e);
         }
     }
@@ -96,14 +96,14 @@ export const fetchFavWeatherByCityKey = createAsyncThunk(
                     const response = await axios.get(
                         `${BASE_URL}/forecasts/v1/hourly/1hour/${city.cityKey}?apikey=${process.env.REACT_APP_WEATHER_API_KEY}`
                     );
-                    return {cityKey: city.cityKey, temperValue: response.data[0].Temperature.Value, weatherType: response.data[0].IconPhrase };
+                    return { cityKey: city.cityKey, temperValue: response.data[0].Temperature.Value, weatherType: response.data[0].IconPhrase };
                 })
             );
 
             thunkAPI.dispatch(setIsLoading(true));
 
         } catch (e) {
-            thunkAPI.dispatch(showErrorModal({message: e['message'], title: e['name']}));
+            thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));
             return thunkAPI.rejectWithValue(e);
         }
     }

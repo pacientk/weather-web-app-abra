@@ -20,7 +20,7 @@ const modalDialogSlice = createSlice({
     reducers: {
         resetModalDialog: () => initialState,
 
-        showErrorModal(state, action: PayloadAction<any>) {
+        showErrorModal(state, action: PayloadAction<{ [key: string]: string }>) {
             state.isModalShow = true;
             state.modalErrTitle = action.payload.title;
             state.modalErrMessage = action.payload.message;

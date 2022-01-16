@@ -28,9 +28,9 @@ const ModalDialog = () => {
         return (
             <>
                 <Modal.Body>
-                    <h3 className="mt-3 mb-4 text-secondary">{modalErrTitle && modalErrTitle || 'Error'}</h3>
+                    <h3 className="mt-3 mb-4 text-secondary">{modalErrTitle.length > 0 && modalErrTitle || 'Error'}</h3>
                     <p>
-                        {modalErrMessage && modalErrMessage || 'Network Error'}
+                        {modalErrMessage.length > 0 && modalErrMessage || 'Network Error'}
                     </p>
                 </Modal.Body>
                 <Modal.Footer>

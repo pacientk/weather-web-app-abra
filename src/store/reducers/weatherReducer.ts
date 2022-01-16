@@ -35,6 +35,9 @@ const weatherSlice = createSlice({
     name: 'weather',
     initialState,
     reducers: {
+        setCurrentCity(state, action) {
+            state.currentCityData.name = action.payload;
+        },
         cleanSuggestionsCities(state) {
             state.suggestionsCities = [];
         },
@@ -143,5 +146,5 @@ const weatherSlice = createSlice({
         },
     }
 });
-export const { cleanSuggestionsCities, setDegreeType, addToFavorites, removeFromFavorites } = weatherSlice.actions;
+export const { setCurrentCity, cleanSuggestionsCities, setDegreeType, addToFavorites, removeFromFavorites } = weatherSlice.actions;
 export default weatherSlice.reducer;

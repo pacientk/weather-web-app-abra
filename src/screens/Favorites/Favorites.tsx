@@ -4,9 +4,9 @@ import Spinner from '../../components/Spinner/Spinner';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { degreeTypeSelector, favoritesSelector, isInitialSelector, isLoadingSelector } from '../../store/selectors';
-import { TempUnit } from '../../store/reducers/weatherReducer';
+import { setCurrentCity, TempUnit } from '../../store/reducers/weatherReducer';
 import { fahrenheitToCelcius } from '../../utils/utils';
-import { fetchCityData, fetchFavWeatherByCityKey } from '../../store/weatherAPI';
+import { fetchFavWeatherByCityKey } from '../../store/weatherAPI';
 import { AddRemoveToFavBtn } from '../../components';
 import { Favorite } from '../../utils/@types';
 
@@ -24,14 +24,14 @@ const Favorites = () => {
     }, []);
 
     const passToHome = async (cityName: string) => {
-        await dispatch(fetchCityData(cityName));
+        await dispatch(setCurrentCity(cityName));
         navigate('/');
     };
 
     const defineGrid = () => {
 
         if (favorites?.length) {
-            return favorites?.map((city: Favorite, i: number) => {
+            return favorites?.map((city: Favorite) => {
                 return (
                     <div
                         key={city.cityKey}

@@ -18,8 +18,8 @@ export const fetchCityData = createAsyncThunk(
             thunkAPI.dispatch(setIsLoading(true));
 
             if (response.status === 200) {
-                await thunkAPI.dispatch(fetchWeatherByCityKey(cityKey));
-                await thunkAPI.dispatch(getDailyForecasts(cityKey));
+                thunkAPI.dispatch(fetchWeatherByCityKey(cityKey));
+                thunkAPI.dispatch(getDailyForecasts(cityKey));
             }
 
             return response.data;

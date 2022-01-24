@@ -81,8 +81,6 @@ export const fetchSearchCitiesData = createAsyncThunk(
                 { cancelToken: axiosCancelSource.token }
             );
 
-            console.log('@@@@ ', response.data);
-
             return response.data;
         } catch (e) {
             thunkAPI.dispatch(showErrorModal({ message: e['message'], title: e['name'] }));

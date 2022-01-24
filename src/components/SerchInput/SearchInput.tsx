@@ -49,7 +49,7 @@ const Search: React.FC = () => {
             dispatch(cleanSuggestionsCities());
             dispatch(fetchSearchCitiesData(cityName));
         }
-    }, 600);
+    }, 400);
 
     async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(e.target.value);
@@ -74,7 +74,7 @@ const Search: React.FC = () => {
             {suggestionsCities?.length > 0 &&
             <Col ref={suggestionRef} className="position-relative">
                 <div className="list-group pt-1 position-absolute w-100">
-                    {suggestionsCities.slice(0, 6).map((city: { [key: string]: string }, i: number) => {
+                    {suggestionsCities.slice(0, 6).map((city: { [key: string]: string }) => {
                         return <button
                             key={city.cityKey}
                             onClick={() => handleChooseCity(city.cityName)}

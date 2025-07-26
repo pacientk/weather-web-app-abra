@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setIsInitial, setIsLoading } from './reducers/appReducer';
 import { showErrorModal } from './reducers/modalDialogReducer';
 
-const BASE_URL = 'http://dataservice.accuweather.com';
+const BASE_URL = 'https://dataservice.accuweather.com';
 
 export const fetchCityData = createAsyncThunk(
     'weather/fetchCityData',
